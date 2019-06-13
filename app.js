@@ -11,7 +11,7 @@ app.use(express.json());
 const contacts = [];
 
 app.get("/contacts", (req, res) => {
-
+    res.render("contacts/index", { contacts })
 });
 
 app.post("/contacts", (req, res) => {
