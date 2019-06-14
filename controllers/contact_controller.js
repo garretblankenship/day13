@@ -1,15 +1,20 @@
-const contacts = [];
+const ContactModel = require("./../database/models/contact_model");
 
-function index(req, res) {
+async function index(req, res) {
+    const contacts = await ContactModel.find();
     res.render("contacts/index", { contacts });
 }
 
-function create(req, res) {
+async function create(req, res) {
     const { name, email } = req.body;
-    const contact = { name, email };
-    contacts.push(contact);
-
-    res.redirect("/contacts");
+    const newContact = { name, email };
+    
+    try {
+        const contact = await ContactModel.create(newContact);
+        res.redirect("/contacts");
+    } catch(err) {
+        res.status(500).send(`Error: ${err}`)
+    }
 }
 
 function newResource(req, res) {
